@@ -1,9 +1,11 @@
 import { serve } from 'https://deno.land/std@0.184.0/http/server.ts';
-import { load } from 'https://deno.land/std@0.184.0/dotenv/mod.ts';
 
-// Load environment variables
-const env = await load();
-const OPENAI_API_KEY = env['OPENAI_API_KEY'];
+const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+
+if (!OPENAI_API_KEY) {
+  console.error('OPENAI_API_KEY is not set in the environment');
+  Deno.exit(1);
+}
 
 function getRandomEmojis(count: number = 3): string[] {
   // Define emoji ranges
